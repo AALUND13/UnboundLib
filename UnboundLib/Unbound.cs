@@ -85,6 +85,7 @@ namespace UnboundLib
         {
             // Add UNBOUND text to the main menu screen
             bool firstTime = true;
+            config.SaveOnConfigSet = false;
 
             On.MainMenuHandler.Awake += (orig, self) =>
             {
@@ -336,6 +337,12 @@ namespace UnboundLib
 
             // sync modded clients
             networkEvents.OnJoinedRoomEvent += SyncModClients.RequestSync;
+
+            this.ExecuteAfterSeconds(1, () =>
+            {
+                config.Save();
+                config.SaveOnConfigSet = true;
+            });
         }
 
         private void Update()
