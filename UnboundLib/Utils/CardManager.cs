@@ -122,10 +122,12 @@ namespace UnboundLib.Utils
 
         public static void EnableCards(CardInfo[] cardInfos, bool saved = true)
         {
+            Unbound.config.SaveOnConfigSet = false;
             foreach (var card in cardInfos)
             {
                 EnableCard(card, saved);
             }
+            Unbound.config.SaveOnConfigSet = true;
         }
 
         public static void EnableCard(CardInfo cardInfo, bool saved = true)
@@ -154,10 +156,12 @@ namespace UnboundLib.Utils
 
         public static void DisableCards(CardInfo[] cardInfos, bool saved = true)
         {
+            Unbound.config.SaveOnConfigSet = false;
             foreach (var card in cardInfos)
             {
                 DisableCard(card, saved);
             }
+            Unbound.config.SaveOnConfigSet = true;
         }
 
         public static void DisableCard(CardInfo cardInfo, bool saved = true)
@@ -186,19 +190,25 @@ namespace UnboundLib.Utils
         public static void EnableCategory(string categoryName)
         {
             if (categoryBools.ContainsKey(categoryName)) categoryBools[categoryName].Value = true;
+
+            Unbound.config.SaveOnConfigSet = false;
             foreach (string cardname in GetCardsInCategory(categoryName))
             {
                 EnableCard(cards[cardname].cardInfo, true);
             }
+            Unbound.config.SaveOnConfigSet = true;
         }
 
         public static void DisableCategory(string categoryName)
         {
             if (categoryBools.ContainsKey(categoryName)) categoryBools[categoryName].Value = false;
+
+            Unbound.config.SaveOnConfigSet = false;
             foreach (string cardname in GetCardsInCategory(categoryName))
             {
                 DisableCard(cards[cardname].cardInfo, true);
             }
+            Unbound.config.SaveOnConfigSet = true;
         }
 
         public static bool IsCardActive(CardInfo card)

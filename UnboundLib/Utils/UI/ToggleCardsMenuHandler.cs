@@ -121,6 +121,7 @@ namespace UnboundLib.Utils.UI
                 toggledAll = !toggledAll;
 
                 var cardsInCategory = CardManager.GetCardsInCategory(currentCategory);
+                Unbound.config.SaveOnConfigSet = false;
                 if (toggledAll)
                 {
                     var objectsInCategory = GetCardObjects(cardsInCategory);
@@ -139,6 +140,7 @@ namespace UnboundLib.Utils.UI
                         cardObjs[cardObject].Invoke();
                     }
                 }
+                Unbound.config.SaveOnConfigSet = true;
             });
 
             // get and set info button
@@ -336,15 +338,18 @@ namespace UnboundLib.Utils.UI
         private void DisableCardsInCategory(string category)
         {
             if (!cardObjectsInCategory.ContainsKey(category)) return;
+            Unbound.config.SaveOnConfigSet = false;
             foreach (GameObject cardObject in cardObjectsInCategory[category])
             {
                 cardObject.SetActive(false);
             }
+            Unbound.config.SaveOnConfigSet = true;
         }
 
         private IEnumerator EnableCardsInCategory(string category)
         {
             if (!cardObjectsInCategory.ContainsKey(category)) yield break;
+            Unbound.config.SaveOnConfigSet = false;
             foreach (GameObject cardObject in cardObjectsInCategory[category])
             {
                 var active = ActiveOnSearch(cardObject.name);
@@ -352,6 +357,7 @@ namespace UnboundLib.Utils.UI
                 UpdateVisualsCardObj(cardObject);
                 yield return new WaitForEndOfFrame();
             }
+            Unbound.config.SaveOnConfigSet = true;
         }
 
         internal static Color uncommonColor = new Color(0, 0.5f, 1, 1);
